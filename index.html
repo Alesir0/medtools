@@ -1,80 +1,1472 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أدوات الطوارئ الطبية — حاسبات سريرية سريعة</title>
-<meta name="description" content="حاسبات سريرية للأطباء: جرعات أدوية طوارئ الأطفال، مؤشر HEART، ومقياس غلاسكو للغيبوبة.">
-<link rel="stylesheet" href="assets/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Tools | أدوات الأطباء</title>
+
+  <style>
+    :root {
+      --primary: #0ea5a4;
+      --primary-dark: #087f7e;
+      --bg: #f4f8fb;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #718096;
+      --border: #e5eaf0;
+      --danger: #dc3545;
+      --warning: #f59e0b;
+      --success: #16a34a;
+      --shadow: 0 10px 30px rgba(15, 45, 70, .08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #087f7e, #0ea5a4);
+      color: white;
+      padding: 28px 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.12);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand-icon {
+      width: 55px;
+      height: 55px;
+      background: rgba(255,255,255,.18);
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+    }
+
+    .brand h1 {
+      font-size: 25px;
+      margin-bottom: 5px;
+    }
+
+    .brand p {
+      opacity: .85;
+      font-size: 13px;
+    }
+
+    .admin-btn {
+      border: 1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.12);
+      color: white;
+      padding: 11px 17px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 18px;
+    }
+
+    .notice {
+      background: #fff8e6;
+      border: 1px solid #f5d98a;
+      color: #795900;
+      padding: 14px 18px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .tool-card {
+      background: var(--card);
+      border: 2px solid transparent;
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .tool-card:hover,
+    .tool-card.active {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+    }
+
+    .tool-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: #e6f8f7;
+      color: var(--primary-dark);
+      font-size: 27px;
+      margin-bottom: 16px;
+    }
+
+    .tool-card h2 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .tool-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .panel {
+      display: none;
+      background: white;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 30px;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 18px;
+      margin-bottom: 25px;
+    }
+
+    .panel-title h2 {
+      font-size: 21px;
+    }
+
+    .panel-title span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .form-group {
+      margin-bottom: 5px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #fafcfd;
+      padding: 13px;
+      border-radius: 10px;
+      outline: none;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(14,165,164,.1);
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    button.primary {
+      background: var(--primary);
+      color: white;
+      border: 0;
+      padding: 13px 22px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    button.primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .result {
+      margin-top: 25px;
+      padding: 22px;
+      background: #f1fbfa;
+      border: 1px solid #bce9e6;
+      border-radius: 15px;
+      display: none;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .result-value {
+      font-size: 30px;
+      color: var(--primary-dark);
+      font-weight: bold;
+      margin: 8px 0;
+    }
+
+    .score-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .score-option {
+      border: 1px solid var(--border);
+      background: #fafcfd;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .score-option:hover,
+    .score-option.selected {
+      border-color: var(--primary);
+      background: #e9f9f8;
+    }
+
+    .heart-row {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+
+    .heart-row h3 {
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .gcs-box {
+      background: #f8fafc;
+      padding: 20px;
+      border-radius: 14px;
+      margin-bottom: 15px;
+    }
+
+    .gcs-box h3 {
+      margin-bottom: 12px;
+    }
+
+    .gcs-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .gcs-option {
+      padding: 10px 13px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .gcs-option.selected {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .score-display {
+      text-align: center;
+      padding: 25px;
+      background: #f4fbff;
+      border-radius: 15px;
+      margin-top: 20px;
+    }
+
+    .big-score {
+      font-size: 50px;
+      font-weight: bold;
+      color: var(--primary-dark);
+    }
+
+    .admin-login {
+      max-width: 400px;
+      margin: auto;
+    }
+
+    .admin-area {
+      display: none;
+    }
+
+    .admin-area.show {
+      display: block;
+    }
+
+    .login-area.hidden {
+      display: none;
+    }
+
+    .drug-list {
+      margin-top: 25px;
+    }
+
+    .drug-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      background: #fafcfd;
+    }
+
+    .delete-btn {
+      background: #fff0f1;
+      color: var(--danger);
+      border: 0;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media(max-width: 800px) {
+      .tools,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .score-options {
+        grid-template-columns: 1fr;
+      }
+
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<header class="site-header">
-  <div class="shell row">
-    <a href="index.html" class="brand"><span class="pulse-dot"></span> أدوات الطوارئ</a>
-    <nav class="nav">
-      <a href="pediatric.html">جرعات الأطفال</a>
-      <a href="heart.html">مؤشر HEART</a>
-      <a href="gcs.html">مقياس غلاسكو</a>
-      <a href="admin.html" class="admin-link">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        الإدارة
-      </a>
-    </nav>
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-icon">⚕️</div>
+      <div>
+        <h1>Medical Tools</h1>
+        <p>أدوات مساعدة للأطباء والكوادر الطبية</p>
+      </div>
+    </div>
+
+    <button class="admin-btn" onclick="openAdmin()">
+      ⚙️ الإدارة
+    </button>
   </div>
 </header>
 
-<div class="ecg-wrap">
-  <svg viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polyline class="ecg-line" points="0,45 140,45 168,45 182,15 196,75 210,45 224,45 400,45 428,45 442,20 456,68 470,45 484,45 660,45 688,45 702,15 716,75 730,45 744,45 920,45 948,45 962,20 976,68 990,45 1004,45 1200,45"/>
-  </svg>
-</div>
+<main class="container">
 
-<main class="shell">
-  <section class="hero">
-    <span class="eyebrow">للاستخدام السريري — نقطة رعاية سريعة</span>
-    <h1>حاسبات سريرية جاهزة عند السرير</h1>
-    <p class="lead">ثلاث أدوات مصممة لسرعة الطوارئ: جرعات أدوية الأطفال حسب الوزن، مؤشر HEART لألم الصدر، ومقياس غلاسكو لتقييم الوعي. النتائج تُعرض كقراءة جهاز مراقبة واضحة وسريعة القراءة.</p>
+  <div class="notice">
+    ⚠️ <strong>تنبيه:</strong>
+    هذه الأدوات مخصصة للمساعدة في الحساب فقط. يجب التحقق من الجرعات والنتائج
+    مقابل بروتوكولات المستشفى والمراجع الطبية المعتمدة قبل استخدامها سريرياً.
+  </div>
+
+  <!-- TOOLS -->
+  <section class="tools">
+
+    <div class="tool-card active" onclick="showTool('dose', this)">
+      <div class="tool-icon">💊</div>
+      <h2>جرعات أدوية الأطفال</h2>
+      <p>
+        حساب الجرعة اعتماداً على وزن الطفل والجرعة المحددة
+        لكل كيلوغرام.
+      </p>
+    </div>
+
+    <div class="tool-card" onclick="showTool('heart', this)">
+      <div class="tool-icon">❤️</div>
+      <h2>HEART Score</h2>
+      <p>
+        حساب درجة HEART لتقييم خطورة مرضى ألم الصدر.
+      </p>
+    </div>
+
+    <div class="tool-card" onclick="showTool('gcs', this)">
+      <div class="tool-icon">🧠</div>
+      <h2>Glasgow Coma Scale</h2>
+      <p>
+        حساب GCS من Eye و Verbal و Motor.
+      </p>
+    </div>
+
   </section>
 
-  <section class="grid-tools">
-    <a href="pediatric.html" class="tool-card ped">
-      <span class="tag">طوارئ أطفال</span>
-      <h3>حاسبة جرعات الأطفال</h3>
-      <p>اختر الدواء، أدخل الوزن بالكيلوغرام، واحصل على الجرعة والحجم المطلوب فوراً مع تنبيه عند تجاوز الحد الأقصى.</p>
-      <span class="go">فتح الأداة
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
-      </span>
-    </a>
 
-    <a href="heart.html" class="tool-card heart">
-      <span class="tag">تقييم القلب</span>
-      <h3>مؤشر HEART Score</h3>
-      <p>تقييم خطورة ألم الصدر عبر خمسة محاور: القصة، تخطيط القلب، العمر، عوامل الخطر، والتروبونين — مع تصنيف الخطورة.</p>
-      <span class="go">فتح الأداة
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
-      </span>
-    </a>
+  <!-- ================= DOSE ================= -->
 
-    <a href="gcs.html" class="tool-card gcs">
-      <span class="tag">تقييم عصبي</span>
-      <h3>مقياس غلاسكو للغيبوبة</h3>
-      <p>احسب مجموع فتح العين والاستجابة اللفظية والحركية، مع تصنيف شدة إصابة الوعي فوراً.</p>
-      <span class="go">فتح الأداة
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
-      </span>
-    </a>
+  <section id="dose" class="panel active">
+
+    <div class="panel-title">
+      <div class="tool-icon">💊</div>
+      <div>
+        <h2>حساب جرعة الدواء للأطفال</h2>
+        <span>Paediatric Emergency Drug Dose Calculator</span>
+      </div>
+    </div>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>اختر الدواء</label>
+        <select id="drugSelect">
+          <option value="">-- اختر الدواء --</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>وزن الطفل (kg)</label>
+        <input
+          type="number"
+          id="weight"
+          min="0"
+          step="0.1"
+          placeholder="مثال: 15">
+      </div>
+
+    </div>
+
+    <button class="primary" onclick="calculateDose()">
+      احسب الجرعة
+    </button>
+
+    <div id="doseResult" class="result"></div>
+
   </section>
+
+
+  <!-- ================= HEART ================= -->
+
+  <section id="heart" class="panel">
+
+    <div class="panel-title">
+      <div class="tool-icon">❤️</div>
+      <div>
+        <h2>HEART Score</h2>
+        <span>History, ECG, Age, Risk Factors, Troponin</span>
+      </div>
+    </div>
+
+    <div class="heart-row">
+      <h3>1. History</h3>
+
+      <div class="score-options">
+        <div class="score-option" data-group="history" data-score="0">
+          Slightly suspicious — 0
+        </div>
+        <div class="score-option" data-group="history" data-score="1">
+          Moderately suspicious — 1
+        </div>
+        <div class="score-option" data-group="history" data-score="2">
+          Highly suspicious — 2
+        </div>
+      </div>
+    </div>
+
+
+    <div class="heart-row">
+      <h3>2. ECG</h3>
+
+      <div class="score-options">
+        <div class="score-option" data-group="ecg" data-score="0">
+          Normal — 0
+        </div>
+        <div class="score-option" data-group="ecg" data-score="1">
+          Non-specific repolarization disturbance — 1
+        </div>
+        <div class="score-option" data-group="ecg" data-score="2">
+          Significant ST deviation — 2
+        </div>
+      </div>
+    </div>
+
+
+    <div class="heart-row">
+      <h3>3. Age</h3>
+
+      <div class="score-options">
+        <div class="score-option" data-group="age" data-score="0">
+          &lt; 45 years — 0
+        </div>
+        <div class="score-option" data-group="age" data-score="1">
+          45–64 years — 1
+        </div>
+        <div class="score-option" data-group="age" data-score="2">
+          ≥ 65 years — 2
+        </div>
+      </div>
+    </div>
+
+
+    <div class="heart-row">
+      <h3>4. Risk Factors</h3>
+
+      <div class="score-options">
+        <div class="score-option" data-group="risk" data-score="0">
+          No risk factors — 0
+        </div>
+        <div class="score-option" data-group="risk" data-score="1">
+          1–2 risk factors — 1
+        </div>
+        <div class="score-option" data-group="risk" data-score="2">
+          ≥3 risk factors / known atherosclerotic disease — 2
+        </div>
+      </div>
+    </div>
+
+
+    <div class="heart-row">
+      <h3>5. Troponin</h3>
+
+      <div class="score-options">
+        <div class="score-option" data-group="troponin" data-score="0">
+          ≤ normal limit — 0
+        </div>
+        <div class="score-option" data-group="troponin" data-score="1">
+          1–3 × normal limit — 1
+        </div>
+        <div class="score-option" data-group="troponin" data-score="2">
+          &gt;3 × normal limit — 2
+        </div>
+      </div>
+    </div>
+
+    <button class="primary" onclick="calculateHeart()">
+      احسب HEART Score
+    </button>
+
+    <div id="heartResult" class="result"></div>
+
+  </section>
+
+
+  <!-- ================= GCS ================= -->
+
+  <section id="gcs" class="panel">
+
+    <div class="panel-title">
+      <div class="tool-icon">🧠</div>
+      <div>
+        <h2>Glasgow Coma Scale</h2>
+        <span>GCS Calculator</span>
+      </div>
+    </div>
+
+
+    <div class="gcs-box">
+
+      <h3>👁 Eye Opening</h3>
+
+      <div class="gcs-options">
+
+        <div class="gcs-option"
+             data-gcs="eye"
+             data-score="4">
+          4 — Spontaneous
+        </div>
+
+        <div class="gcs-option"
+             data-gcs="eye"
+             data-score="3">
+          3 — To voice
+        </div>
+
+        <div class="gcs-option"
+             data-gcs="eye"
+             data-score="2">
+          2 — To pain
+        </div>
+
+        <div class="gcs-option"
+             data-gcs="eye"
+             data-score="1">
+          1 — None
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="gcs-box">
+
+      <h3>🗣 Verbal Response</h3>
+
+      <div class="gcs-options">
+
+        <div class="gcs-option"
+             data-gcs="verbal"
+             data-score="5">
+          5 — Oriented
+        </div>
+
+        <div class="gcs-option"
+             data-gcs="verbal"
+             data-score="4">
+          4 — Confused
+        </div>
+
+        <div class="gcs-option"
+             data-gcs="verbal"
+             data-score="3">
+          3 — Inappropriate words
+        </div>
+
+        <div class="gcs-option"
+             data-gcs="verbal"
+             data-score="2">
+          2 — Incomprehensible sounds
+        </div>
+
+        <div class="gcs-option"
+             data-gcs="verbal"
+             data-score="1">
+          1 — None
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="gcs-box">
+
+      <h3>💪 Motor Response</h3>
+
+      <div class="gcs-options">
+
+        <div class="gcs-option"
+             data-gcs="motor"
+             data-score="6">
+          6 — Obeys commands
+        </div>
+
+        <div class="gcs-option"
+             data-gcs="motor"
+             data-score="5">
+          5 — Localizes pain
+        </div>
+
+        <div class="gcs-option"
+             data-gcs="motor"
+             data-score="4">
+          4 — Withdraws
+        </div>
+
+        <div class="gcs-option"
+             data-gcs="motor"
+             data-score="3">
+          3 — Abnormal flexion
+        </div>
+
+        <div class="gcs-option"
+             data-gcs="motor"
+             data-score="2">
+          2 — Extension
+        </div>
+
+        <div class="gcs-option"
+             data-gcs="motor"
+             data-score="1">
+          1 — None
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <button class="primary" onclick="calculateGCS()">
+      احسب GCS
+    </button>
+
+    <div id="gcsResult" class="result"></div>
+
+  </section>
+
+
+  <!-- ================= ADMIN ================= -->
+
+  <section id="adminPanel" class="panel">
+
+    <div class="panel-title">
+      <div class="tool-icon">⚙️</div>
+      <div>
+        <h2>لوحة الإدارة</h2>
+        <span>إدارة الأدوية والجرعات</span>
+      </div>
+    </div>
+
+
+    <div id="loginArea" class="login-area">
+
+      <div class="admin-login">
+
+        <div class="form-group">
+          <label>رمز الإدارة</label>
+
+          <input
+            type="password"
+            id="adminPin"
+            placeholder="أدخل الرمز">
+        </div>
+
+        <button class="primary" onclick="loginAdmin()">
+          دخول الإدارة
+        </button>
+
+        <p style="margin-top:15px;color:#718096;font-size:12px;">
+          الرمز الافتراضي للتجربة: 1234
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div id="adminArea" class="admin-area">
+
+      <h3 style="margin-bottom:20px;">
+        إضافة دواء
+      </h3>
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>اسم الدواء</label>
+
+          <input
+            type="text"
+            id="newDrugName"
+            placeholder="مثال: Drug Name">
+        </div>
+
+        <div class="form-group">
+          <label>الجرعة لكل kg</label>
+
+          <input
+            type="number"
+            id="newDosePerKg"
+            step="0.001"
+            placeholder="مثال: 0.1">
+        </div>
+
+        <div class="form-group">
+          <label>الوحدة</label>
+
+          <select id="newUnit">
+            <option value="mg">mg</option>
+            <option value="mcg">mcg</option>
+            <option value="mL">mL</option>
+            <option value="units">units</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>الحد الأقصى للجرعة - اختياري</label>
+
+          <input
+            type="number"
+            id="newMaxDose"
+            step="0.001"
+            placeholder="اختياري">
+        </div>
+
+      </div>
+
+      <button class="primary" onclick="addDrug()">
+        + إضافة الدواء
+      </button>
+
+      <div class="drug-list" id="drugList"></div>
+
+    </div>
+
+  </section>
+
 </main>
 
-<footer class="site-footer">
-  <div class="shell">
-    <div class="disclaimer">
-      <b>تنويه:</b> هذه الأدوات مُعدة لدعم القرار السريري لطاقم طبي مؤهل فقط، ولا تُغني عن التقييم السريري المباشر أو البروتوكولات المحلية المعتمدة. يُرجى مراجعة الجرعات والنتائج قبل الاعتماد عليها في القرار العلاجي.
-    </div>
-    جميع الحقوق محفوظة — أدوات الطوارئ الطبية
-  </div>
+
+<footer>
+  Medical Tools © 2026 — للاستخدام الطبي المساعد فقط
 </footer>
+
+
+<script>
+
+  /* =========================
+     DATA
+  ========================= */
+
+  let drugs = JSON.parse(
+    localStorage.getItem("medicalDrugs") || "[]"
+  );
+
+  /*
+    ملاحظة:
+    لا توجد جرعات دوائية سريرية افتراضية هنا.
+    يجب أن يقوم المسؤول بإدخال الجرعات المعتمدة
+    وفق بروتوكول المؤسسة الطبية.
+  */
+
+
+  /* =========================
+     TOOL NAVIGATION
+  ========================= */
+
+  function showTool(toolId, element) {
+
+    document.querySelectorAll(".panel").forEach(panel => {
+      if (panel.id !== "adminPanel") {
+        panel.classList.remove("active");
+      }
+    });
+
+    document.querySelectorAll(".tool-card").forEach(card => {
+      card.classList.remove("active");
+    });
+
+    document.getElementById(toolId).classList.add("active");
+
+    if (element) {
+      element.classList.add("active");
+    }
+
+    window.scrollTo({
+      top: document.getElementById(toolId).offsetTop - 20,
+      behavior: "smooth"
+    });
+  }
+
+
+  /* =========================
+     DRUGS
+  ========================= */
+
+  function loadDrugs() {
+
+    const select = document.getElementById("drugSelect");
+
+    select.innerHTML =
+      '<option value="">-- اختر الدواء --</option>';
+
+    drugs.forEach((drug, index) => {
+
+      const option = document.createElement("option");
+
+      option.value = index;
+
+      option.textContent =
+        drug.name +
+        " — " +
+        drug.dosePerKg +
+        " " +
+        drug.unit +
+        "/kg";
+
+      select.appendChild(option);
+
+    });
+
+    renderDrugList();
+  }
+
+
+  function calculateDose() {
+
+    const index =
+      document.getElementById("drugSelect").value;
+
+    const weight =
+      parseFloat(document.getElementById("weight").value);
+
+    const result =
+      document.getElementById("doseResult");
+
+    if (index === "" || !weight || weight <= 0) {
+
+      result.innerHTML =
+        "⚠️ يرجى اختيار الدواء وإدخال وزن صحيح.";
+
+      result.classList.add("show");
+
+      return;
+    }
+
+    const drug = drugs[index];
+
+    let dose =
+      weight * parseFloat(drug.dosePerKg);
+
+    let maxMessage = "";
+
+    if (
+      drug.maxDose &&
+      dose > parseFloat(drug.maxDose)
+    ) {
+
+      dose = parseFloat(drug.maxDose);
+
+      maxMessage =
+        `<p style="color:#b45309;margin-top:10px;">
+          تم تطبيق الحد الأقصى المسجل للجرعة.
+        </p>`;
+    }
+
+    result.innerHTML = `
+      <div>الدواء</div>
+
+      <div class="result-value">
+        ${escapeHTML(drug.name)}
+      </div>
+
+      <p>
+        الوزن: <strong>${weight} kg</strong>
+      </p>
+
+      <p>
+        الجرعة المسجلة:
+        <strong>
+          ${drug.dosePerKg} ${drug.unit}/kg
+        </strong>
+      </p>
+
+      <hr style="border:0;border-top:1px solid #cfe9e7;margin:15px 0;">
+
+      <p>الجرعة المحسوبة:</p>
+
+      <div class="result-value">
+        ${roundDose(dose)} ${drug.unit}
+      </div>
+
+      ${maxMessage}
+
+      <p style="font-size:12px;color:#718096;margin-top:15px;">
+        تحقق من التركيز، طريق الإعطاء، العمر، الحد الأقصى،
+        وبروتوكول المؤسسة قبل الاستخدام.
+      </p>
+    `;
+
+    result.classList.add("show");
+  }
+
+
+  function roundDose(value) {
+
+    if (value >= 100) {
+      return value.toFixed(1);
+    }
+
+    if (value >= 10) {
+      return value.toFixed(2);
+    }
+
+    return value.toFixed(3);
+  }
+
+
+  /* =========================
+     HEART SCORE
+  ========================= */
+
+  let heartScores = {
+    history: null,
+    ecg: null,
+    age: null,
+    risk: null,
+    troponin: null
+  };
+
+
+  document.querySelectorAll(".score-option").forEach(option => {
+
+    option.addEventListener("click", function() {
+
+      const group =
+        this.dataset.group;
+
+      const score =
+        parseInt(this.dataset.score);
+
+      document
+        .querySelectorAll(
+          `.score-option[data-group="${group}"]`
+        )
+        .forEach(item => {
+          item.classList.remove("selected");
+        });
+
+      this.classList.add("selected");
+
+      heartScores[group] = score;
+
+    });
+
+  });
+
+
+  function calculateHeart() {
+
+    const values =
+      Object.values(heartScores);
+
+    if (values.some(value => value === null)) {
+
+      const result =
+        document.getElementById("heartResult");
+
+      result.innerHTML =
+        "⚠️ يرجى اختيار جميع عناصر HEART Score.";
+
+      result.classList.add("show");
+
+      return;
+    }
+
+    const total =
+      values.reduce(
+        (sum, value) => sum + value,
+        0
+      );
+
+    let interpretation = "";
+
+    if (total <= 3) {
+      interpretation =
+        "Low risk";
+    } else if (total <= 6) {
+      interpretation =
+        "Moderate risk";
+    } else {
+      interpretation =
+        "High risk";
+    }
+
+    const result =
+      document.getElementById("heartResult");
+
+    result.innerHTML = `
+      <div>HEART Score</div>
+
+      <div class="result-value">
+        ${total} / 10
+      </div>
+
+      <strong>${interpretation}</strong>
+
+      <p style="font-size:12px;color:#718096;margin-top:15px;">
+        يجب تفسير النتيجة ضمن السياق السريري والبروتوكول المحلي،
+        ولا تعتمد على الـ score وحده لاتخاذ القرار.
+      </p>
+    `;
+
+    result.classList.add("show");
+  }
+
+
+  /* =========================
+     GCS
+  ========================= */
+
+  let gcsScores = {
+    eye: null,
+    verbal: null,
+    motor: null
+  };
+
+
+  document.querySelectorAll(".gcs-option").forEach(option => {
+
+    option.addEventListener("click", function() {
+
+      const group =
+        this.dataset.gcs;
+
+      const score =
+        parseInt(this.dataset.score);
+
+      document
+        .querySelectorAll(
+          `.gcs-option[data-gcs="${group}"]`
+        )
+        .forEach(item => {
+          item.classList.remove("selected");
+        });
+
+      this.classList.add("selected");
+
+      gcsScores[group] = score;
+
+    });
+
+  });
+
+
+  function calculateGCS() {
+
+    if (
+      gcsScores.eye === null ||
+      gcsScores.verbal === null ||
+      gcsScores.motor === null
+    ) {
+
+      const result =
+        document.getElementById("gcsResult");
+
+      result.innerHTML =
+        "⚠️ يرجى اختيار Eye و Verbal و Motor.";
+
+      result.classList.add("show");
+
+      return;
+    }
+
+    const total =
+      gcsScores.eye +
+      gcsScores.verbal +
+      gcsScores.motor;
+
+    let interpretation = "";
+
+    if (total >= 13) {
+      interpretation = "GCS 13–15";
+    } else if (total >= 9) {
+      interpretation = "GCS 9–12";
+    } else {
+      interpretation = "GCS 3–8";
+    }
+
+    const result =
+      document.getElementById("gcsResult");
+
+    result.innerHTML = `
+      <div>Glasgow Coma Scale</div>
+
+      <div class="big-score">
+        ${total}
+      </div>
+
+      <p>
+        Eye: ${gcsScores.eye}
+        &nbsp; | &nbsp;
+        Verbal: ${gcsScores.verbal}
+        &nbsp; | &nbsp;
+        Motor: ${gcsScores.motor}
+      </p>
+
+      <p style="margin-top:12px;font-weight:bold;">
+        ${interpretation}
+      </p>
+    `;
+
+    result.classList.add("show");
+  }
+
+
+  /* =========================
+     ADMIN
+  ========================= */
+
+  function openAdmin() {
+
+    document
+      .getElementById("adminPanel")
+      .classList.add("active");
+
+    document
+      .getElementById("adminPanel")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+
+  }
+
+
+  function loginAdmin() {
+
+    const pin =
+      document.getElementById("adminPin").value;
+
+    /*
+      هذا PIN تجريبي فقط.
+      لا تستخدمه كحماية حقيقية في موقع عام.
+    */
+
+    if (pin === "1234") {
+
+      document
+        .getElementById("loginArea")
+        .classList.add("hidden");
+
+      document
+        .getElementById("adminArea")
+        .classList.add("show");
+
+      renderDrugList();
+
+    } else {
+
+      alert("رمز الإدارة غير صحيح.");
+
+    }
+
+  }
+
+
+  function addDrug() {
+
+    const name =
+      document.getElementById("newDrugName").value.trim();
+
+    const dosePerKg =
+      parseFloat(
+        document.getElementById("newDosePerKg").value
+      );
+
+    const unit =
+      document.getElementById("newUnit").value;
+
+    const maxDose =
+      parseFloat(
+        document.getElementById("newMaxDose").value
+      );
+
+
+    if (
+      !name ||
+      !dosePerKg ||
+      dosePerKg <= 0
+    ) {
+
+      alert(
+        "يرجى إدخال اسم الدواء والجرعة بشكل صحيح."
+      );
+
+      return;
+    }
+
+
+    const drug = {
+
+      name: name,
+
+      dosePerKg: dosePerKg,
+
+      unit: unit,
+
+      maxDose:
+        !isNaN(maxDose) && maxDose > 0
+          ? maxDose
+          : null
+
+    };
+
+
+    drugs.push(drug);
+
+    localStorage.setItem(
+      "medicalDrugs",
+      JSON.stringify(drugs)
+    );
+
+
+    document.getElementById("newDrugName").value = "";
+    document.getElementById("newDosePerKg").value = "";
+    document.getElementById("newMaxDose").value = "";
+
+
+    loadDrugs();
+
+    alert("تمت إضافة الدواء.");
+
+  }
+
+
+  function deleteDrug(index) {
+
+    if (
+      !confirm(
+        "هل أنت متأكد من حذف هذا الدواء؟"
+      )
+    ) {
+      return;
+    }
+
+    drugs.splice(index, 1);
+
+    localStorage.setItem(
+      "medicalDrugs",
+      JSON.stringify(drugs)
+    );
+
+    loadDrugs();
+
+  }
+
+
+  function renderDrugList() {
+
+    const container =
+      document.getElementById("drugList");
+
+    if (!container) return;
+
+    if (drugs.length === 0) {
+
+      container.innerHTML = `
+        <div style="
+          padding:20px;
+          background:#f8fafc;
+          border-radius:12px;
+          color:#718096;
+        ">
+          لا توجد أدوية مضافة حالياً.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    container.innerHTML =
+      "<h3 style='margin-bottom:12px;'>الأدوية الحالية</h3>";
+
+
+    drugs.forEach((drug, index) => {
+
+      const item =
+        document.createElement("div");
+
+      item.className = "drug-item";
+
+      item.innerHTML = `
+
+        <div>
+          <strong>
+            ${escapeHTML(drug.name)}
+          </strong>
+
+          <div style="
+            color:#718096;
+            font-size:12px;
+            margin-top:5px;
+          ">
+            ${drug.dosePerKg}
+            ${drug.unit}/kg
+
+            ${
+              drug.maxDose
+              ? ` — Max: ${drug.maxDose} ${drug.unit}`
+              : ""
+            }
+          </div>
+        </div>
+
+        <button
+          class="delete-btn"
+          onclick="deleteDrug(${index})">
+          حذف
+        </button>
+      `;
+
+      container.appendChild(item);
+
+    });
+
+  }
+
+
+  /* =========================
+     SECURITY / HELPERS
+  ========================= */
+
+  function escapeHTML(text) {
+
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /* =========================
+     INITIALIZE
+  ========================= */
+
+  loadDrugs();
+
+</script>
 
 </body>
 </html>
