@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة جرعات طوارئ الأطفال — عيادة الأدوات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap site-nav">
+    <a class="brand" href="index.html">
+      <svg class="pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2 7 4-14 3 10 2-3h5"/></svg>
+      عيادة الأدوات
+    </a>
+    <ul class="nav-links">
+      <li><a href="pediatric-dosing.html" class="active">جرعات الأطفال</a></li>
+      <li><a href="heart-score.html">HEART Score</a></li>
+      <li><a href="gcs.html">مقياس غلاسكو</a></li>
+      <li><a href="admin.html">لوحة التحكم</a></li>
+    </ul>
+  </div>
+</header>
+
+<main class="wrap" style="max-width:760px;">
+  <div class="tool-header">
+    <span class="kicker">01 / DOSAGE CALCULATOR</span>
+    <h1>حاسبة جرعات طوارئ الأطفال</h1>
+    <p>اختر الدواء وأدخل وزن الطفل بالكيلوغرام لحساب الجرعة المقترحة تلقائيًا حسب الحد الأقصى المسجّل.</p>
+  </div>
+
+  <div class="alert warn" id="noDrugsAlert" style="display:none;">
+    لا توجد أدوية مسجّلة حاليًا. يمكن لمسؤول الموقع إضافتها من <a href="admin.html" style="text-decoration:underline;">لوحة التحكم</a>.
+  </div>
+
+  <div class="panel">
+    <h2>بيانات الحساب</h2>
+    <div class="grid-2">
+      <div class="field">
+        <label for="drugSelect">الدواء</label>
+        <select id="drugSelect"></select>
+      </div>
+      <div class="field">
+        <label for="weightInput">وزن الطفل (كغم)</label>
+        <input type="number" id="weightInput" class="mono" min="0" step="0.1" placeholder="مثال: 14.5">
+        <div class="hint">أدخل الوزن الفعلي المقاس، وليس تقديرًا عمريًا إن أمكن.</div>
+      </div>
+    </div>
+    <div id="drugMeta" class="alert info" style="display:none;"></div>
+  </div>
+
+  <div class="readout" id="readout" data-level="low">
+    <div class="r-label">CALCULATED&nbsp;DOSE</div>
+    <div class="r-value" id="doseValue">—</div>
+    <span class="r-status" id="doseStatus">أدخل الوزن واختر الدواء</span>
+    <div class="r-note" id="doseNote"></div>
+  </div>
+
+  <div class="panel" style="margin-top:22px;">
+    <h2>ملاحظات الاستخدام</h2>
+    <p style="margin-bottom:8px;">• الجرعات المعروضة قيم مرجعية شائعة الاستخدام في طب طوارئ الأطفال، ويجب مطابقتها دائمًا مع البروتوكول المعتمد في منشأتكم والمرجع الدوائي الرسمي قبل الإعطاء.</p>
+    <p style="margin-bottom:8px;">• عند وجود حد أقصى للجرعة، لن تتجاوز الحاسبة هذا الحد حتى لو كان ناتج الوزن × الجرعة/كغم أكبر منه.</p>
+    <p style="margin:0;">• لأي تباين بين المرضى (قصور كلوي/كبدي، خداج، تداخلات دوائية) يُطلب تقييم سريري فردي إضافي.</p>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="disclaimer">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div>أداة مرجعية مساعدة للكادر الطبي المؤهل فقط، ولا تُغني عن التقييم السريري والمراجع المعتمدة. تحقّقوا من كل جرعة قبل الإعطاء.</div>
+    </div>
+    <div class="foot-meta">
+      <span>عيادة الأدوات</span>
+      <span>البيانات محفوظة محليًا داخل متصفحك فقط</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/pediatric.js"></script>
+</body>
+</html>

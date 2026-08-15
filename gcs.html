@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مقياس غلاسكو للغيبوبة (GCS) — عيادة الأدوات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap site-nav">
+    <a class="brand" href="index.html">
+      <svg class="pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2 7 4-14 3 10 2-3h5"/></svg>
+      عيادة الأدوات
+    </a>
+    <ul class="nav-links">
+      <li><a href="pediatric-dosing.html">جرعات الأطفال</a></li>
+      <li><a href="heart-score.html">HEART Score</a></li>
+      <li><a href="gcs.html" class="active">مقياس غلاسكو</a></li>
+      <li><a href="admin.html">لوحة التحكم</a></li>
+    </ul>
+  </div>
+</header>
+
+<main class="wrap" style="max-width:760px;">
+  <div class="tool-header">
+    <span class="kicker">03 / NEURO ASSESSMENT</span>
+    <h1>مقياس غلاسكو للغيبوبة (GCS)</h1>
+    <p>تقييم سريع لمستوى الوعي عبر ثلاثة محاور: فتح العين، الاستجابة اللفظية، والاستجابة الحركية.</p>
+  </div>
+
+  <form id="gcsForm">
+    <div class="panel">
+      <div class="criterion">
+        <div class="c-title">فتح العين (Eye Opening) — E</div>
+        <div class="c-desc">أفضل استجابة ملاحَظة</div>
+        <div class="seg" data-key="eye">
+          <input type="radio" name="eye" id="ey4" value="4" checked><label for="ey4">تلقائي (4)</label>
+          <input type="radio" name="eye" id="ey3" value="3"><label for="ey3">استجابة للصوت (3)</label>
+          <input type="radio" name="eye" id="ey2" value="2"><label for="ey2">استجابة للألم (2)</label>
+          <input type="radio" name="eye" id="ey1" value="1"><label for="ey1">لا استجابة (1)</label>
+        </div>
+      </div>
+
+      <div class="criterion">
+        <div class="c-title">الاستجابة اللفظية (Verbal Response) — V</div>
+        <div class="c-desc">أفضل استجابة ملاحَظة</div>
+        <div class="seg" data-key="verbal">
+          <input type="radio" name="verbal" id="v5" value="5" checked><label for="v5">متجاوب ومتوجّه (5)</label>
+          <input type="radio" name="verbal" id="v4" value="4"><label for="v4">محادثة مشوّشة (4)</label>
+          <input type="radio" name="verbal" id="v3" value="3"><label for="v3">كلمات غير مناسبة (3)</label>
+          <input type="radio" name="verbal" id="v2" value="2"><label for="v2">أصوات غير مفهومة (2)</label>
+          <input type="radio" name="verbal" id="v1" value="1"><label for="v1">لا استجابة (1)</label>
+        </div>
+      </div>
+
+      <div class="criterion" style="margin-bottom:0;">
+        <div class="c-title">الاستجابة الحركية (Motor Response) — M</div>
+        <div class="c-desc">أفضل استجابة ملاحَظة</div>
+        <div class="seg" data-key="motor">
+          <input type="radio" name="motor" id="m6" value="6" checked><label for="m6">يستجيب للأوامر (6)</label>
+          <input type="radio" name="motor" id="m5" value="5"><label for="m5">يحدد موضع الألم (5)</label>
+          <input type="radio" name="motor" id="m4" value="4"><label for="m4">انسحاب من الألم (4)</label>
+          <input type="radio" name="motor" id="m3" value="3"><label for="m3">انثناء غير طبيعي (تصلّب قشري) (3)</label>
+          <input type="radio" name="motor" id="m2" value="2"><label for="m2">بسط غير طبيعي (تصلّب دماغي) (2)</label>
+          <input type="radio" name="motor" id="m1" value="1"><label for="m1">لا استجابة (1)</label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="readout" id="readout" data-level="low">
+    <div class="r-label">GLASGOW&nbsp;COMA&nbsp;SCALE</div>
+    <div class="r-value" id="scoreValue">15 <small>/ 15</small></div>
+    <span class="r-status" id="scoreStatus">إصابة خفيفة / وعي طبيعي</span>
+    <div class="r-note" id="scoreNote"></div>
+  </div>
+
+  <div class="panel" style="margin-top:22px;">
+    <h2>مرجع التصنيف</h2>
+    <table class="drugs">
+      <thead><tr><th>المجموع</th><th>التصنيف</th><th>ملاحظة</th></tr></thead>
+      <tbody>
+        <tr><td class="num">13 – 15</td><td><span class="badge low">خفيفة</span></td><td>إصابة دماغية خفيفة غالبًا</td></tr>
+        <tr><td class="num">9 – 12</td><td><span class="badge mid">متوسطة</span></td><td>تستدعي مراقبة عصبية دقيقة</td></tr>
+        <tr><td class="num">3 – 8</td><td><span class="badge high">شديدة</span></td><td>يُفكّر عادة بحماية مجرى الهواء / التنبيب</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px; margin-bottom:0; font-size:.85rem;">النتيجة تُسجَّل عادة بصيغة E/V/M بالإضافة إلى المجموع الكلي.</p>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="disclaimer">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div>أداة مرجعية مساعدة للكادر الطبي المؤهل فقط، ولا تُغني عن التقييم السريري المباشر.</div>
+    </div>
+    <div class="foot-meta">
+      <span>عيادة الأدوات</span>
+      <span>البيانات محفوظة محليًا داخل متصفحك فقط</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/gcs.js"></script>
+</body>
+</html>

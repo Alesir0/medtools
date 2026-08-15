@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم — عيادة الأدوات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap site-nav">
+    <a class="brand" href="index.html">
+      <svg class="pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2 7 4-14 3 10 2-3h5"/></svg>
+      عيادة الأدوات
+    </a>
+    <ul class="nav-links">
+      <li><a href="pediatric-dosing.html">جرعات الأطفال</a></li>
+      <li><a href="heart-score.html">HEART Score</a></li>
+      <li><a href="gcs.html">مقياس غلاسكو</a></li>
+      <li><a href="admin.html" class="active">لوحة التحكم</a></li>
+    </ul>
+  </div>
+</header>
+
+<main class="wrap" style="max-width:860px;">
+
+  <!-- بوابة الدخول -->
+  <section id="gate" class="gate">
+    <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    <h1 style="font-size:1.4rem;">لوحة تحكم محمية</h1>
+    <p>أدخل كلمة المرور للوصول إلى إدارة قائمة الأدوية.</p>
+    <form id="gateForm" style="text-align:right;">
+      <div class="field">
+        <label for="passInput">كلمة المرور</label>
+        <input type="password" id="passInput" autocomplete="current-password" required>
+      </div>
+      <div id="gateError" class="alert error" style="display:none;">كلمة المرور غير صحيحة.</div>
+      <button class="btn" type="submit" style="width:100%;">دخول</button>
+    </form>
+    <p class="hint" style="margin-top:14px;">كلمة المرور الافتراضية عند أول استخدام: <span class="mono">admin123</span> — يُنصح بتغييرها فورًا بعد الدخول.</p>
+  </section>
+
+  <!-- لوحة التحكم -->
+  <section id="panelArea" style="display:none;">
+    <div class="tool-header" style="padding-top:20px;">
+      <span class="kicker">ADMIN&nbsp;PANEL</span>
+      <h1>إدارة قائمة الأدوية</h1>
+      <p>أضف دواءً جديدًا أو عدّل جرعة موجودة. التغييرات تُطبَّق فورًا على أداة حساب جرعات الأطفال.</p>
+    </div>
+
+    <div class="alert info">
+      البيانات محفوظة داخل متصفحك الحالي فقط (localStorage) — لا يوجد خادم مركزي، لذا لن تظهر التعديلات لزائرين آخرين على أجهزتهم. لمشاركة قائمة موحّدة مع الفريق، استخدم زر "تصدير JSON" وأرسل الملف لهم، أو استوردوه يدويًا.
+    </div>
+
+    <div class="panel">
+      <h2 id="formTitle">إضافة دواء جديد</h2>
+      <form id="drugForm">
+        <input type="hidden" id="drugId">
+        <div class="grid-2">
+          <div class="field">
+            <label for="fName">اسم الدواء</label>
+            <input type="text" id="fName" required>
+          </div>
+          <div class="field">
+            <label for="fCategory">التصنيف</label>
+            <input type="text" id="fCategory" placeholder="مثال: طوارئ حرجة">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fRoute">طريقة الإعطاء</label>
+            <input type="text" id="fRoute" placeholder="مثال: IV/IO">
+          </div>
+          <div class="field">
+            <label for="fUnit">وحدة الجرعة</label>
+            <select id="fUnit">
+              <option value="mg">ملغ (mg)</option>
+              <option value="mL">مل (mL)</option>
+              <option value="mcg">ميكروغرام (mcg)</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fDosePerKg">الجرعة لكل كيلوغرام</label>
+            <input type="number" id="fDosePerKg" class="mono" step="0.001" min="0" required>
+          </div>
+          <div class="field">
+            <label for="fMaxDose">الحد الأقصى للجرعة (اختياري)</label>
+            <input type="number" id="fMaxDose" class="mono" step="0.01" min="0">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fMinDose">الحد الأدنى للجرعة (اختياري)</label>
+            <input type="number" id="fMinDose" class="mono" step="0.01" min="0">
+          </div>
+          <div class="field">
+            <label for="fConcentration">التركيز ملغ/مل (اختياري لحساب الحجم)</label>
+            <input type="number" id="fConcentration" class="mono" step="0.001" min="0">
+          </div>
+        </div>
+        <div class="field">
+          <label for="fNotes">ملاحظات</label>
+          <textarea id="fNotes" rows="2"></textarea>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn" type="submit">حفظ الدواء</button>
+          <button class="btn ghost" type="button" id="cancelEdit" style="display:none;">إلغاء التعديل</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="toolbar">
+      <h2 style="margin:0;">القائمة الحالية</h2>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn ghost sm" id="exportBtn">تصدير JSON</button>
+        <button class="btn ghost sm" id="resetBtn">استعادة الافتراضي</button>
+        <button class="btn danger sm" id="lockBtn">تسجيل الخروج</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div style="overflow-x:auto;">
+        <table class="drugs" id="drugsTable">
+          <thead>
+            <tr><th>الاسم</th><th>التصنيف</th><th>جرعة/كغ</th><th>الحد الأقصى</th><th>الطريقة</th><th></th></tr>
+          </thead>
+          <tbody id="drugsTbody"></tbody>
+        </table>
+        <div class="empty" id="emptyState" style="display:none;">لا توجد أدوية مسجّلة بعد.</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>تغيير كلمة المرور</h2>
+      <form id="passForm" class="grid-2">
+        <div class="field">
+          <label for="newPass1">كلمة مرور جديدة</label>
+          <input type="password" id="newPass1" minlength="4" required>
+        </div>
+        <div class="field">
+          <label for="newPass2">تأكيد كلمة المرور</label>
+          <input type="password" id="newPass2" minlength="4" required>
+        </div>
+        <div style="grid-column:1/-1;">
+          <button class="btn ghost" type="submit">تحديث كلمة المرور</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="disclaimer">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div>هذه الحماية بكلمة مرور من جهة المتصفح فقط ولأغراض تنظيم الوصول الأساسي، وليست بديلاً عن نظام مصادقة حقيقي محمي من جهة الخادم. لا تُدخل بيانات حساسة أو تعتمد عليها كحماية أمنية صارمة.</div>
+    </div>
+    <div class="foot-meta">
+      <span>عيادة الأدوات</span>
+      <span>البيانات محفوظة محليًا داخل متصفحك فقط</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

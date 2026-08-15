@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة HEART Score — عيادة الأدوات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap site-nav">
+    <a class="brand" href="index.html">
+      <svg class="pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2 7 4-14 3 10 2-3h5"/></svg>
+      عيادة الأدوات
+    </a>
+    <ul class="nav-links">
+      <li><a href="pediatric-dosing.html">جرعات الأطفال</a></li>
+      <li><a href="heart-score.html" class="active">HEART Score</a></li>
+      <li><a href="gcs.html">مقياس غلاسكو</a></li>
+      <li><a href="admin.html">لوحة التحكم</a></li>
+    </ul>
+  </div>
+</header>
+
+<main class="wrap" style="max-width:760px;">
+  <div class="tool-header">
+    <span class="kicker">02 / RISK SCORE</span>
+    <h1>حاسبة HEART Score</h1>
+    <p>تقييم خطورة الأحداث القلبية الكبرى (MACE) خلال 6 أسابيع لدى مرضى ألم الصدر في الطوارئ، عبر خمسة معايير قياسية.</p>
+  </div>
+
+  <form id="heartForm">
+    <div class="panel">
+      <div class="criterion">
+        <div class="c-title">H — القصة السريرية (History)</div>
+        <div class="c-desc">مدى اشتباه القصة المرضية بألم صدر إقفاري نموذجي</div>
+        <div class="seg" data-key="history">
+          <input type="radio" name="history" id="h0" value="0" checked><label for="h0">بسيطة الاشتباه (0)</label>
+          <input type="radio" name="history" id="h1" value="1"><label for="h1">متوسطة الاشتباه (1)</label>
+          <input type="radio" name="history" id="h2" value="2"><label for="h2">شديدة الاشتباه (2)</label>
+        </div>
+      </div>
+
+      <div class="criterion">
+        <div class="c-title">E — تخطيط القلب (ECG)</div>
+        <div class="c-desc">أهم تغيّر ظاهر في تخطيط كهربائية القلب</div>
+        <div class="seg" data-key="ecg">
+          <input type="radio" name="ecg" id="e0" value="0" checked><label for="e0">طبيعي (0)</label>
+          <input type="radio" name="ecg" id="e1" value="1"><label for="e1">اضطراب إعادة استقطاب غير نوعي (1)</label>
+          <input type="radio" name="ecg" id="e2" value="2"><label for="e2">انحراف ملحوظ في ST (2)</label>
+        </div>
+      </div>
+
+      <div class="criterion">
+        <div class="c-title">A — العمر (Age)</div>
+        <div class="c-desc">عمر المريض بالسنوات</div>
+        <div class="seg" data-key="age">
+          <input type="radio" name="age" id="a0" value="0" checked><label for="a0">أقل من 45 (0)</label>
+          <input type="radio" name="age" id="a1" value="1"><label for="a1">45 – 65 (1)</label>
+          <input type="radio" name="age" id="a2" value="2"><label for="a2">أكبر من 65 (2)</label>
+        </div>
+      </div>
+
+      <div class="criterion">
+        <div class="c-title">R — عوامل الخطورة (Risk factors)</div>
+        <div class="c-desc">سكري، ارتفاع ضغط، دهون، تدخين، وراثة، سمنة، أو قصة مرض شرياني سابق</div>
+        <div class="seg" data-key="risk">
+          <input type="radio" name="risk" id="r0" value="0" checked><label for="r0">لا يوجد (0)</label>
+          <input type="radio" name="risk" id="r1" value="1"><label for="r1">عامل أو عاملان (1)</label>
+          <input type="radio" name="risk" id="r2" value="2"><label for="r2">≥3 عوامل أو قصة تصلّب شراييني (2)</label>
+        </div>
+      </div>
+
+      <div class="criterion" style="margin-bottom:0;">
+        <div class="c-title">T — التروبونين (Troponin)</div>
+        <div class="c-desc">مستوى التروبونين مقارنة بالحد الطبيعي للمختبر</div>
+        <div class="seg" data-key="troponin">
+          <input type="radio" name="troponin" id="t0" value="0" checked><label for="t0">ضمن الحد الطبيعي (0)</label>
+          <input type="radio" name="troponin" id="t1" value="1"><label for="t1">1 – 3 أضعاف الحد الطبيعي (1)</label>
+          <input type="radio" name="troponin" id="t2" value="2"><label for="t2">أكثر من 3 أضعاف الحد الطبيعي (2)</label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="readout" id="readout" data-level="low">
+    <div class="r-label">HEART&nbsp;SCORE</div>
+    <div class="r-value" id="scoreValue">0 <small>/ 10</small></div>
+    <span class="r-status" id="scoreStatus">خطورة منخفضة</span>
+    <div class="r-note" id="scoreNote"></div>
+  </div>
+
+  <div class="panel" style="margin-top:22px;">
+    <h2>مرجع التصنيف</h2>
+    <table class="drugs">
+      <thead><tr><th>المجموع</th><th>التصنيف</th><th>خطر MACE التقريبي</th><th>التوجيه العام</th></tr></thead>
+      <tbody>
+        <tr><td class="num">0 – 3</td><td><span class="badge low">منخفض</span></td><td class="num">~2.5٪</td><td>يُفكّر بالخروج مع متابعة عيادية</td></tr>
+        <tr><td class="num">4 – 6</td><td><span class="badge mid">متوسط</span></td><td class="num">~20.3٪</td><td>مراقبة ومزيد من الفحوصات غالبًا</td></tr>
+        <tr><td class="num">7 – 10</td><td><span class="badge high">مرتفع</span></td><td class="num">~72.7٪</td><td>تقييم إكليلي عاجل غالبًا</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px; margin-bottom:0; font-size:.85rem;">القرار العلاجي النهائي يعود دائمًا للطبيب المعالج وبروتوكول القسم.</p>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="disclaimer">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div>أداة مرجعية مساعدة للكادر الطبي المؤهل فقط، ولا تُغني عن التقييم السريري الشامل.</div>
+    </div>
+    <div class="foot-meta">
+      <span>عيادة الأدوات</span>
+      <span>البيانات محفوظة محليًا داخل متصفحك فقط</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/heart.js"></script>
+</body>
+</html>
